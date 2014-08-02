@@ -25,4 +25,7 @@ define(function(require, exports, module) {
     });
 
     mainContext.add(centerSpinModifier).add(logo);
+
+    console.log('Current target is: '+JSON.stringify(TARGET));
+    console.log('Set TARGET variable with "webpack --target=xxx"');
 });
