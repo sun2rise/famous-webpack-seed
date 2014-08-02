@@ -30,7 +30,7 @@ Run the dev server with ```webpack-dev-server```
 
 Go to the dev server url : ```http://localhost:8080/webpack-dev-server/boilerplate```. This is live-reloaded with an iframe.
 
-When using ```webpack-dev-server --sync```, the normal build (```http://localhost:8080/boilerplate```) will also live reload (without iframe).
+When using ```webpack-dev-server --sync```, the normal build (```http://localhost:8080/boilerplate```) will also live reload (without iframe). You can optionally specify the IP address of the host computer: `--sync=192.168.0.1`.
 
 ---
 

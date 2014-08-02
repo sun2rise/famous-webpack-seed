@@ -56,10 +56,10 @@ function getOptions(){
       "Webpack builds every 'main.js' in /src/[bundle]/\n"+
       "Every directory in /src/ is bundled as a seperate app.\n\n"+
       "Extra options:\n"+
-      "\t-s, --sync[=ip]\tadds webpack-dev-server snippet to normal build.\n"+
+      "\t-s, --sync[=ip]\t\tadds webpack-dev-server snippet to normal build.\n"+
       "\t-t, --target=xxx\tset a global TARGET variable (default: 'dev')\n"+
-      "\t-m, --minify\tminify (without mangle) (default: false)\n"+
-      "\t-a, --app=xxx\tbuild a single folder (default: all)\n"
+      "\t-m, --minify\t\tminify (without mangle) (default: false)\n"+
+      "\t-a, --app=xxx\t\tbuild a single folder (default: all)\n"
       );
      process.exit();
   }
