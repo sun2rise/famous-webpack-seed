@@ -8,7 +8,6 @@
 * Use `--sync` to use the webpack-dev-server without the iframe! 
 * Use `--target=xxx` to set a global TARGET variable (useful for multiple configurations)
 * Use `--minify` to minify the bundle (without mangle)
-* Use `--dir=yyy` to change the output directory
 * Use `--app=zzz` to only build a single directory (e.g. `--app=boilerplate` builds `./src/boilerplate/main.js`)
 
 ---

@@ -49,23 +49,21 @@ function getOptions(){
     .default('t','dev')
     .alias('m','minify')
     .default('m',false)
-    .alias('d','dir')
-    .default('d','dist')
-    .alias('h','help')
+    .alias('o','options')
     .alias('s','sync')
     .default('s',false)
     .argv;
 
-  if(opt.help){
+  if(opt.o){
     console.log(
       "Webpack builds every 'main.js' in /src/[bundle]/\n"+
       "Every directory in /src/ is bundled as a seperate app.\n\n"+
       "Extra options:\n"+
       "\t-t, --target\tset a global TARGET variable (default: 'dev')\n"+
       "\t-m, --minify\tminify (without mangle) (default: false)\n"+
-      "\t-a, --app\tbuild a single folder (default: all)\n"+
-      "\t-d, --dir\tset output directory (default 'dist')\n"
+      "\t-a, --app\tbuild a single folder (default: all)\n"
       );
+     process.exit();
   }
 
   var apps;
@@ -87,6 +85,6 @@ function getOptions(){
   });
 
   opt.entries = entries;
-  console.log('TARGET='+opt.t+' APP='+(opt.a?opt.a:'all')+' SYNC='+opt.s+' MINIFY='+opt.m+' DIR='+opt.d);
+  console.log('TARGET='+opt.t+' APP='+(opt.a?opt.a:'all')+' SYNC='+opt.s+' MINIFY='+opt.m);
   return opt;
 }
