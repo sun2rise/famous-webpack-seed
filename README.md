@@ -48,6 +48,7 @@ Install:
 ```bash
 npm install -g cordova
 cordova platform add ios # or android
+```
 
 Run production:
 ```bash
