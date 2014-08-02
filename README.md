@@ -4,7 +4,7 @@
 ###Features
 
 * Multiple bundles: Every directory in `./src/` is bundled as an app.
-* Require Jade (.jade), LESS (`.less`) and Coffee (`.coffee`)
+* Require Jade (`.jade`), LESS (`.less`) and Coffee (`.coffee`)
 * Use `--sync` to use the webpack-dev-server without the iframe! 
 * Use `--target=xxx` to set a global TARGET variable (useful for multiple configurations)
 * Use `--minify` to minify the bundle (without mangle)
