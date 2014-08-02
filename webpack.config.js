@@ -49,7 +49,7 @@ function getOptions(){
     .default('t','dev')
     .alias('m','minify')
     .default('m',false)
-    .alias('o','options')
+    .alias('o','extra-options')
     .alias('s','sync')
     .default('s',false)
     .argv;
@@ -59,6 +59,7 @@ function getOptions(){
       "Webpack builds every 'main.js' in /src/[bundle]/\n"+
       "Every directory in /src/ is bundled as a seperate app.\n\n"+
       "Extra options:\n"+
+      "\t-s, --sync\tadds webpack-dev-server snippet to normal build.\n"+
       "\t-t, --target\tset a global TARGET variable (default: 'dev')\n"+
       "\t-m, --minify\tminify (without mangle) (default: false)\n"+
       "\t-a, --app\tbuild a single folder (default: all)\n"

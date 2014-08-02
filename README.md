@@ -10,6 +10,8 @@
 * Use `--minify` to minify the bundle (without mangle)
 * Use `--app=zzz` to only build a single directory (e.g. `--app=boilerplate` builds `./src/boilerplate/main.js`)
 
+See also `webpack --extra-options` for help.
+
 ---
 
 ###Installation
