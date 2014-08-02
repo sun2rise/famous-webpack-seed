@@ -39,4 +39,28 @@ Build the deployable static assets with ```webpack --minify```
 
 (Note/todo: webpack also provides a `-p` option, but this mangles output. Not sure how to modify UglifyJS options when using the `-p` option)
 
+---
 
+###Cordova 
+
+Install:
+```bash
+npm install -g cordova
+cordova platform add ios # or android
+
+Run production:
+```bash
+webpack --cordova
+cordova run ios
+````
+
+Run debug:
+```bash
+webpack --sync=192.168.0.1 --cordova=boilerplate
+```
+
+Sets the url in `config.xml` to `http://192.168.0.1:8080/boilerplate`, which is location of the (live-reloaded) boilerplate bundle.
+
+**Todo:** Support for Cordova plugins when live reloading.
+
+`cordova.js` and plugin js files are located in `/platforms/ios/www` or `/platforms/android/assets/www`, so server should run and reload from there.

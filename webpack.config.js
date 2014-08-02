@@ -6,7 +6,7 @@ var options = getOptions();
 var config = {
   "context": path.join(__dirname,'src'),
   "output":{
-    path:options.dir,
+    path: path.join(__dirname,'dist'),
     filename:"[name].js"
   },
   "entry":options.entries,
@@ -36,6 +36,9 @@ var config = {
 if(options.m){
   config.plugins.push(new webpack.optimize.UglifyJsPlugin({mangle:false}));
 }
+if(options.c){
+  config.output.path = path.join(__dirname,'www');
+}
 
 module.exports = config;
 
@@ -48,6 +51,7 @@ function getOptions(){
     .default('m',false)
     .alias('o','extra-options')
     .alias('s','sync')
+    .alias('c','cordova')
     .default('s',false)
     .argv;
 
@@ -59,7 +63,8 @@ function getOptions(){
       "\t-s, --sync[=ip]\t\tadds webpack-dev-server snippet to normal build.\n"+
       "\t-t, --target=xxx\tset a global TARGET variable (default: 'dev')\n"+
       "\t-m, --minify\t\tminify (without mangle) (default: false)\n"+
-      "\t-a, --app=xxx\t\tbuild a single folder (default: all)\n"
+      "\t-a, --app=xxx\t\tbuild a single folder (default: all)\n"+
+      "\t-c, --cordova\t\tmodify Cordova' ./config.xml (version and source url) and build to ./www"
       );
      process.exit();
   }
@@ -82,6 +87,27 @@ function getOptions(){
     // app = ./src/app/main
     entries[name] = opt.s? [sync , entry] :[entry];
   });
+
+  if(opt.c){
+    var src = typeof opt.c === "string"? opt.c: "index.html";
+    if(opt.s){
+      src = "http://" + syncIP + ":8080/" + src;
+    }
+    var replace = require('replace');
+    replace({
+      regex: /version=\"([0-9]+\.?){1,3}\"/,
+      replacement: "version=\""+require('./package.json').version+"\"",
+      paths: ['config.xml'],
+      silent: true
+    });
+    replace({
+      regex: /<content +src="[^"]+\" *\/>/,
+      replacement: "<content src=\""+src+"\"/>",
+      paths: ['config.xml'],
+      silent: true
+    });
+    console.log('Cordova:'+src);
+  }
 
   opt.entries = entries;
   console.log('TARGET='+opt.t+' APP='+(opt.a?opt.a:'all')+' SYNC='+opt.s+' MINIFY='+opt.m);
