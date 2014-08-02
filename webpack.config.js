@@ -33,9 +33,6 @@ var config = {
   ]
 };
 
-if(options.d){
-  config.output.path = options.d;
-}
 if(options.m){
   config.plugins.push(new webpack.optimize.UglifyJsPlugin({mangle:false}));
 }
@@ -59,10 +56,10 @@ function getOptions(){
       "Webpack builds every 'main.js' in /src/[bundle]/\n"+
       "Every directory in /src/ is bundled as a seperate app.\n\n"+
       "Extra options:\n"+
-      "\t-s, --sync\tadds webpack-dev-server snippet to normal build.\n"+
-      "\t-t, --target\tset a global TARGET variable (default: 'dev')\n"+
+      "\t-s, --sync[=ip]\tadds webpack-dev-server snippet to normal build.\n"+
+      "\t-t, --target=xxx\tset a global TARGET variable (default: 'dev')\n"+
       "\t-m, --minify\tminify (without mangle) (default: false)\n"+
-      "\t-a, --app\tbuild a single folder (default: all)\n"
+      "\t-a, --app=xxx\tbuild a single folder (default: all)\n"
       );
      process.exit();
   }
@@ -74,7 +71,8 @@ function getOptions(){
     apps = require('glob').sync(path.join('src','!(node_modules)','main.js'));
   }
 
-  var sync = "webpack-dev-server/client?http://localhost:8080/";
+  var syncIP = opt.s === true? require('ip').address():opt.s;
+  var sync = "webpack-dev-server/client?http://"+syncIP+":8080/";
 
   var entries = {};
   apps.forEach(function(app){
