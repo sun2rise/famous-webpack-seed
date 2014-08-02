@@ -9,6 +9,7 @@
 * Use `--target=xxx` to set a global TARGET variable (useful for multiple configurations)
 * Use `--minify` to minify the bundle (without mangle)
 * Use `--app=zzz` to only build a single directory (e.g. `--app=boilerplate` builds `./src/boilerplate/main.js`)
+* Support for **Cordova/Phonegap**.
 
 See also `webpack --extra-options` for help.
 
