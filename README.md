@@ -95,7 +95,14 @@ webpack-dev-server --sync=192.168.0.1 --cordova --content-base=platform/ios/www 
 
 **Gotcha 1:** The `--platform=ios` option only works with [my fork](https://github.com/markmarijnissen/webpack-dev-server) of `webpack-dev-server`. I've submitted a [pull-request](https://github.com/webpack/webpack-dev-server/pull/41). You can always use `--content-base=platform/ios/www` or `--content-base=platform/android/assets/www` directly.
 
-**Gotcha 2:** The magic HTML from webpack does not include `cordova.js`. Make sure you include `<script type="text/javascript" src="cordova.js"></script>` in your `index.html` to load cordova. Use `require('file?name=index.html!./index.html');` to copy your `index.html` from your `src` folder to the output bundle. (Of course, you can change `index.html` to be whatever you like. Just use `--cordova=xxx.html` to set your entry-point in the `./config.xml`)
+**Gotcha 2:** The magic HTML from webpack does not include `cordova.js`, so `http://192.168.0.1:8080/boilerplate` does not load cordova. 
+
+To include `cordova.js`:
+
+* Create a custom html which includes `<script type="text/javascript" src="cordova.js"></script>`. 
+* Use `require('file?name=index.html!./index.html');` to copy your `index.html` from your `src` folder to the output bundle. 
+
+This is how the boilerplate app loads cordova. Of course, you can change `index.html` to be whatever you like. Just use `--cordova=xxx.html` to set your entry-point in the `./config.xml`.
 
 ## Contributors
 
