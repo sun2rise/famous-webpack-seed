@@ -1,5 +1,6 @@
 var webpack = require('webpack');
 var path = require('path');
+var fs = require('fs');
 
 var options = getExtraOptions({
   app: null,        // app folder to build (/src/[app]). null = all folders
@@ -7,7 +8,7 @@ var options = getExtraOptions({
   minify: false,    // minify bundle
   sync: false,      // add live-reload webpack-dev-server snippet to bundle
   cordova: 'index.html', // cordova entry-point (in ./config.xml)
-  platform: "dist", // "android" or "ios"
+  platform: null,   // "android" or "ios"
 });
 
 var config = {
@@ -22,7 +23,7 @@ var config = {
   "entry":options.entries,
   "devServer":{
     "colors":true,
-    "contentBase":opt.contentBase
+    "contentBase":options.contentBase
   },
   "module":{
     "loaders":[
@@ -58,15 +59,22 @@ if(options.c){
 module.exports = config;
 
 function getExtraOptions(defaults){
-  opt = require('optimist')
-    .alias('a','app').default('a',defaults.app)
-    .alias('t','target').default('t',defaults.target)
-    .alias('m','minify').default('m',defaults.minify)
+  var opt = require('optimist')
+    .alias('a','app')
+    .alias('t','target')
+    .alias('m','minify')
     .alias('o','extra-options')
-    .alias('s','sync').default('s',defaults.sync)
-    .alias('c','cordova').default('c',defaults.cordova)
-    .alias('x','platform').default('x',defaults.platform)
+    .alias('s','sync')
+    .alias('c','cordova')
+    .alias('x','platform')
     .argv;
+
+  if(!opt.a) opt.a = defaults.app;
+  if(!opt.t) opt.t = defaults.target;
+  if(!opt.m) opt.m = defaults.minify;
+  if(!opt.s) opt.s = defaults.sync;
+  if(!opt.c) opt.c = defaults.cordova;
+  if(!opt.platform) opt.platform = defaults.platform;
 
   if(opt.o){
     console.log(
@@ -166,6 +174,7 @@ function getExtraOptions(defaults){
   }
 
   opt.entries = entries;
+
   console.log('TARGET='+opt.t+' APP='+(opt.a?opt.a:'all')+' SYNC='+(opt.s?syncIP:false)+' MINIFY='+opt.m);
   return opt;
 }
