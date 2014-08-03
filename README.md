@@ -5,13 +5,31 @@
 
 * Multiple bundles: Every directory in `./src/` is bundled as an app.
 * Require Jade (`.jade`), LESS (`.less`) and Coffee (`.coffee`)
-* Use `--sync[=192.168.0.1]` to use the webpack-dev-server without the iframe! 
-* Use `--target=xxx` to set a global TARGET variable (useful for multiple configurations)
-* Use `--minify` to minify the bundle (without mangle)
-* Use `--app=zzz` to only build a single directory (e.g. `--app=boilerplate` builds `./src/boilerplate/main.js`)
 * Support for **Cordova/Phonegap**.
 
-See also `webpack --extra-options` for help.
+See `webpack --extra-options` for help:
+
+```
+Webpack builds every 'main.js' in /src/[bundle]/ to ./dist
+Every directory in /src/ is bundled as a seperate app.
+
+Extra options:
+  -s, --sync[=ip]   adds webpack-dev-server live-reload snippet to the bundle(s).
+  -t, --target=xxx  set a global TARGET variable (default: window.TARGET='dev')
+  -m, --minify      minify without mangle (default: false)
+  -a, --app=xxx     build a single src folder (default: all)
+
+  -c, --cordova=xxx modify Cordova's ./config.xml
+        <config src="..."/> is updated to 'xxx' (default: app (if specified), index.html)
+        version is updated to version from package.json
+
+  -x, --platform    set --content-base of dev-server to a Cordova platform (ios,android).
+        platform defaults to: ios (if found), android (if found), 'dist'
+
+        ios:     --content-base=./platform/ios/www
+        android: --content-base=./platform/android/assets/www
+
+```
 
 ---
 
@@ -31,12 +49,13 @@ Run the dev server with ```webpack-dev-server```
 
 Go to the dev server url : ```http://localhost:8080/webpack-dev-server/boilerplate```. This is live-reloaded with an iframe.
 
-When using ```webpack-dev-server --sync```, the normal build (```http://localhost:8080/boilerplate```) will also live reload (without iframe). You can optionally specify the IP address of the host computer: `--sync=192.168.0.1`.
+Use ```webpack-dev-server --sync```, to add the live-reload snippet to the default build. Now you have live-reload without the iframe at ```http://localhost:8080/boilerplate```. You can optionally specify the IP address of the host computer: `--sync=192.168.0.1`.
 
 ---
 
 ###Production
 Build the deployable static assets with ```webpack --minify```
+
 
 (Note/todo: webpack also provides a `-p` option, but this mangles output. Not sure how to modify UglifyJS options when using the `-p` option)
 
@@ -44,25 +63,38 @@ Build the deployable static assets with ```webpack --minify```
 
 ###Cordova 
 
-Install:
+####Install:
 ```bash
 npm install -g cordova
 cordova platform add ios # or android
 ```
 
-Run production:
+####Production:
 ```bash
-webpack --cordova
-cordova run ios
-````
-
-Run debug:
-```bash
-webpack --sync=192.168.0.1 --cordova=boilerplate
+webpack --minify --cordova
+cordova run ios # or android
 ```
 
-Sets the url in `config.xml` to `http://192.168.0.1:8080/boilerplate`, which is location of the (live-reloaded) boilerplate bundle.
+The `--cordova[=xxx.html]` command:
 
-**Todo:** Support for Cordova plugins when live reloading.
+* updates `./config.xml` version to `package.json` version
+* sets the entry-point in `./config.xml` to `xxx.html` (default: `index.html`)
+* outputs bundle to the `./www` folder instead of the `./dist` folder.
 
-`cordova.js` and plugin js files are located in `/platforms/ios/www` or `/platforms/android/assets/www`, so server should run and reload from there.
+####Development:
+```bash
+webpack-dev-server --sync=192.168.0.1 --cordova=boilerplate --platform=ios
+```
+
+* `--sync=192.168.0.1` adds the live-reload snippet to web-dev-server (optional)
+* `--cordova=boilerplate` sets the entry-point in `./config.xml` to `http://192.168.0.1:8080/boilerplate` 
+* `--platform=ios` sets the `--content-base` to `/platforms/ios/www` (ios) or `/platforms/android/assets/www` (android). This is required for Cordova to work correctly. (The cordova javascript differs per platform and is located in those folders)
+
+**Warning:** The `--platform=ios` option only works with [my fork](https://github.com/markmarijnissen/webpack-dev-server) of `webpack-dev-server`. I've submitted a [pull-request](https://github.com/webpack/webpack-dev-server/pull/41). You can always use `--content-base=platform/ios/www` or `--content-base=platform/android/assets/www` directly.
+
+## Contributors
+
+Like it? Show some love and star this project!
+
+* Based on the original seed from [Adrian Rossouw](https://github.com/Vertice/famous-webpack-seed)
+* Bugfix from [Tony Alves](https://github.com/talves/)
