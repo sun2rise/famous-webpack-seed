@@ -71,6 +71,8 @@ npm install -g cordova
 cordova platform add ios # or android
 ```
 
+**Gotcha:** Make sure you include `<script type="text/javascript" src="cordova.js"></script>` in your `index.html` to load cordova. Use `require('file?name=index.html!./index.html');` to copy your `index.html` from your `src` folder to the output bundle. (Of course, you can change `index.html` to be whatever you like. Just use `--cordova=xxx.html` to set your entry-point in the `./config.xml`)
+
 ####Production:
 ```bash
 webpack --minify --cordova
