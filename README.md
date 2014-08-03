@@ -14,14 +14,16 @@ Webpack builds every 'main.js' in /src/[bundle]/ to ./dist
 Every directory in /src/ is bundled as a seperate app.
 
 Extra options:
-  -s, --sync[=ip]   adds webpack-dev-server live-reload snippet to the bundle(s).
-  -t, --target=xxx  set a global TARGET variable (default: window.TARGET='dev')
-  -m, --minify      minify without mangle (default: false)
-  -a, --app=xxx     build a single src folder (default: all)
+  -s, --sync[=ip]   Adds webpack-dev-server live-reload snippet to the bundle(s).
+  -t, --target=xxx  Set a global TARGET variable (default: window.TARGET='dev')
+  -m, --minify      Minify without mangle (default: false)
+  -a, --app=xxx     Build a single src folder (default: all)
 
-  -c, --cordova=xxx modify Cordova's ./config.xml
-        <config src="..."/> is updated to 'xxx' (default: app (if specified), index.html)
-        version is updated to version from package.json
+  -c, --cordova=xxx Modify Cordova's ./config.xml
+        
+        * <config src="..."/> is updated to 'xxx' (default: app (if specified), index.html)
+        * version is updated to version from `package.json`
+        * bundle output path is set to `./www`
 
   -x, --platform    set --content-base of dev-server to a Cordova platform (ios,android).
         platform defaults to: ios (if found), android (if found), 'dist'

@@ -81,13 +81,14 @@ function getExtraOptions(defaults){
       "Webpack builds every 'main.js' in /src/[bundle]/ to ./dist\n"+
       "Every directory in /src/ is bundled as a seperate app.\n\n"+
       "Extra options:\n"+
-      "\t-s, --sync[=ip]\t\tadds webpack-dev-server live-reload snippet to the bundle(s).\n"+
-      "\t-t, --target=xxx\tset a global TARGET variable (default: window.TARGET='dev')\n"+
-      "\t-m, --minify\t\tminify without mangle (default: false)\n"+
-      "\t-a, --app=xxx\t\tbuild a single src folder (default: all)\n\n"+
-      "\t-c, --cordova=xxx\tmodify Cordova's ./config.xml\n"+
+      "\t-s, --sync[=ip]\t\tAdds webpack-dev-server live-reload snippet to the bundle(s).\n"+
+      "\t-t, --target=xxx\tSet a global TARGET variable (default: window.TARGET='dev')\n"+
+      "\t-m, --minify\t\tMinify without mangle (default: false)\n"+
+      "\t-a, --app=xxx\t\tBuild a single src folder (default: all)\n\n"+
+      "\t-c, --cordova=xxx\tModify Cordova's ./config.xml\n"+
       "\t\t\t\t<config src=\"...\"/> is updated to 'xxx' (default: app (if specified), index.html)\n"+
-      "\t\t\t\tversion is updated to version from package.json\n\n"+
+      "\t\t\t\tversion is updated to version from package.json\n"+
+      "\t\t\t\tbundle output path is set to `./www`\n\n"+
       "\t-x, --platform\t\tset --content-base of dev-server to a Cordova platform (ios,android).\n"+
       "\t\t\t\tplatform defaults to: ios (if found), android (if found), 'dist'\n\n"+
       "\t\t\t\tios:     --content-base=./platform/ios/www\n"+
