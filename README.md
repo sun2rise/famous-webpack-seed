@@ -71,8 +71,6 @@ npm install -g cordova
 cordova platform add ios # or android
 ```
 
-**Gotcha:** Make sure you include `<script type="text/javascript" src="cordova.js"></script>` in your `index.html` to load cordova. Use `require('file?name=index.html!./index.html');` to copy your `index.html` from your `src` folder to the output bundle. (Of course, you can change `index.html` to be whatever you like. Just use `--cordova=xxx.html` to set your entry-point in the `./config.xml`)
-
 ####Production:
 ```bash
 webpack --minify --cordova
@@ -95,6 +93,8 @@ webpack-dev-server --sync=192.168.0.1 --cordova=boilerplate --platform=ios
 * `--platform=ios` sets the `--content-base` to `/platforms/ios/www` (ios) or `/platforms/android/assets/www` (android). This is required for Cordova to work correctly. (The cordova javascript differs per platform and is located in those folders)
 
 **Warning:** The `--platform=ios` option only works with [my fork](https://github.com/markmarijnissen/webpack-dev-server) of `webpack-dev-server`. I've submitted a [pull-request](https://github.com/webpack/webpack-dev-server/pull/41). You can always use `--content-base=platform/ios/www` or `--content-base=platform/android/assets/www` directly.
+
+**Gotcha:** Make sure you include `<script type="text/javascript" src="cordova.js"></script>` in your `index.html` to load cordova. Use `require('file?name=index.html!./index.html');` to copy your `index.html` from your `src` folder to the output bundle. (Of course, you can change `index.html` to be whatever you like. Just use `--cordova=xxx.html` to set your entry-point in the `./config.xml`)
 
 ## Contributors
 
