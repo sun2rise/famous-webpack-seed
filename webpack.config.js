@@ -15,7 +15,7 @@ var config = {
   "context": path.join(__dirname,'src'),
   "output":{
     path: path.join(__dirname,'dist'),
-    filename:"[name].js"
+    filename:"[name]/bundle.js"
   },
   "externals":[
     /^(\.\/)?cordova(\.js)?$/
@@ -32,10 +32,11 @@ var config = {
       { test: /\.css$/,    loader: "style-loader!css-loader" },
       { test: /\.less$/,   loader: "style-loader!css-loader!less-loader" },
       { test: /\.jade$/,   loader: "jade-loader" },
-      { test: /\.(png|jpg|gif)$/,    loader: "url-loader?limit=5000" },
-      { test: /\.eot$/,    loader: "file-loader" },
-      { test: /\.ttf$/,    loader: "file-loader" },
-      { test: /\.svg$/,    loader: "file-loader" },
+      { test: /\.(png|jpg|gif)$/,    loader: "copy-weburl-loader?limit=5000" },
+      { test: /\.eot$/,    loader: "copy-loader" },
+      { test: /\.ttf$/,    loader: "copy-loader" },
+      { test: /\.svg$/,    loader: "copy-loader" },
+      { test: /index\.html$/,    loader: "copy-loader" },
       { test: /const(ants)?\.js$/, loader: "expose?CONST" },
       { test: /^(\.\/)?cordova(\.js)?$/, loader: 'script-loader'}
       
@@ -52,7 +53,7 @@ var config = {
 if(options.m){
   config.plugins.push(new webpack.optimize.UglifyJsPlugin({mangle:false}));
 }
-if(options.c){
+if(options.cordova){
   config.output.path = path.join(__dirname,'www');
 }
 
@@ -65,7 +66,6 @@ function getExtraOptions(defaults){
     .alias('m','minify')
     .alias('o','extra-options')
     .alias('s','sync')
-    .alias('c','cordova')
     .alias('x','platform')
     .argv;
 
@@ -73,7 +73,7 @@ function getExtraOptions(defaults){
   if(!opt.t) opt.t = defaults.target;
   if(!opt.m) opt.m = defaults.minify;
   if(!opt.s) opt.s = defaults.sync;
-  if(!opt.c) opt.c = defaults.cordova;
+  if(opt.cordova === true) opt.cordova = defaults.cordova;
   if(!opt.platform) opt.platform = defaults.platform;
 
   if(opt.o){
@@ -85,7 +85,7 @@ function getExtraOptions(defaults){
       "\t-t, --target=xxx\tSet a global TARGET variable (default: window.TARGET='dev')\n"+
       "\t-m, --minify\t\tMinify without mangle (default: false)\n"+
       "\t-a, --app=xxx\t\tBuild a single src folder (default: all)\n\n"+
-      "\t-c, --cordova=xxx\tModify Cordova's ./config.xml\n"+
+      "\t    --cordova=xxx\tModify Cordova's ./config.xml\n"+
       "\t\t\t\t<config src=\"...\"/> is updated to 'xxx' (default: app (if specified), index.html)\n"+
       "\t\t\t\tversion is updated to version from package.json\n"+
       "\t\t\t\tbundle output path is set to `./www`\n\n"+
@@ -131,10 +131,10 @@ function getExtraOptions(defaults){
    * Also updates Cordova' version with your package.json version.
    * 
    */
-  if(opt.c){
+  if(opt.cordova){
     var src = "index.html";                // default is index.html
     if(opt.s && opt.a) src = opt.a;        // if syncing & app specified, default to that bundle
-    if(typeof opt.c === "string") src = opt.c; // if cordova explicitly set, use that.
+    if(typeof opt.cordova === "string") src = opt.cordova; // if cordova explicitly set, use that.
 
     if(opt.s){
       src = "http://" + syncIP + ":8080/" + src; // point to webpack-dev-server
@@ -168,9 +168,9 @@ function getExtraOptions(defaults){
   opt.contentBase = "dist";
   var iosPath = path.join(__dirname,'platforms','ios','www');
   var androidPath = path.join(__dirname,'platforms','android','assets','www');
-  if(opt.platform === "ios" || (!opt.platform && opt.c && fs.existsSync(iosPath))){
+  if(opt.platform === "ios" || (!opt.platform && opt.cordova && fs.existsSync(iosPath))){
     opt.contentBase = iosPath;
-  } else if(opt.platform === "android" || (!opt.platform && opt.c && fs.existsSync(androidPath))){
+  } else if(opt.platform === "android" || (!opt.platform && opt.cordova && fs.existsSync(androidPath))){
     opt.contentBase = androidPath;
   }
 

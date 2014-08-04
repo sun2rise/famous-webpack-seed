@@ -19,7 +19,7 @@ Extra options:
   -m, --minify      Minify without mangle (default: false)
   -a, --app=xxx     Build a single src folder (default: all)
 
-  -c, --cordova=xxx Modify Cordova's ./config.xml
+      --cordova=xxx Modify Cordova's ./config.xml
         
         * <config src="..."/> is updated to 'xxx' (default: app (if specified), index.html)
         * version is updated to version from `package.json`

@@ -1,5 +1,7 @@
 define(function(require, exports, module) {
+    // load non-js resources (css, index.html)
     require('./resources');
+
     // import dependencies
     var Engine = require('famous/core/Engine');
     var Modifier = require('famous/core/Modifier');
