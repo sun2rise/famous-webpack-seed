@@ -5,7 +5,7 @@
 
 * Split your app into multiple bundles. 
 
-    ./src/[bundle]/main.js ---> ./dist/[bundle]/bundle.js
+    ```./src/[bundle]/main.js ---> ./dist/[bundle]/bundle.js```
       
 * Boilerplate bundle included for a quick start!
 * Require Jade, LESS and Coffee.
@@ -41,8 +41,8 @@ webpack-dev-server --sync
 
 Now navigate to:
 
-* http://localhost:8080/boilerplate
-* http://localhost:8080/webpack-dev-server (lists all content)
+* [http://localhost:8080/boilerplate](http://localhost:8080/boilerplate)
+* [http://localhost:8080/webpack-dev-server](http://localhost:8080/webpack-dev-server) (lists all content)
 
 The optional `--sync[=ip]` flag:
 
@@ -120,7 +120,7 @@ The `--bundle=xxx` flag:
 2. Check if `Cordova.js` is included. It is **not** included in the magic HTML from webpack-dev-server. To solve this:
 
     1. Create an `index.html` which includes 
-      ````html
+        ````html
         <script type="text/javascript" src="cordova.js"></script>
         ````
     2. Now, in your `main.js`, require the index.html:
@@ -134,6 +134,7 @@ The `--bundle=xxx` flag:
         ````
         
         You can check `./config.xml` to make sure cordova loads the correct `index.html`
+        
 ---
 
 ### Tips & Tricks
