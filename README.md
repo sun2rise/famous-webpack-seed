@@ -177,3 +177,7 @@ Like it? Show some love and star this project!
 
 * renamed `--app` flag to `--bundle`
 * added changelog
+
+**0.4.0**
+
+* use `copy-loader` and `copy-url-loader` to create independent bundles.
