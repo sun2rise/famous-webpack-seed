@@ -3,7 +3,7 @@
 
 ###Features
 
-* Split your app into multiple bundles. 
+* Split your app into multiple bundles. Useful if for quick prototyping, or if you have a back-end admin interface and a cordova-app.
 
     ```./src/[bundle]/main.js ---> ./dist/[bundle]/bundle.js```
       
