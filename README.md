@@ -134,7 +134,7 @@ The `--bundle=xxx` flag:
         ````
         
         You can check `./config.xml` to make sure cordova loads the correct `index.html`
-        
+
 ---
 
 ### Tips & Tricks
@@ -153,15 +153,21 @@ if(TARGET === 'dev'){
 #### Cordova app + back-end app:
 My projects often consist of two apps:
 
-```
-./src/app/main.js    # A cordova app
-./src/admin/main.js  # A back-end (dashboard, api, content editor)
+```bash
+# A cordova app
+./src/app/main.js   
+
+# A back-end (dashboard, api, content editor)
+./src/admin/main.js  
 ```   
 
 Now you can do:
-```
-webpack                 # output all bundles to `./dist` to upload online.
-webpack --cordova --bundle=app    # output only 'app' bundle to `./www` for cordova.
+```bash
+# output all bundles to `./dist` to upload online.
+webpack                 
+
+# output only 'app' bundle to `./www` for cordova.
+webpack --cordova --bundle=app    
 ```
 ---
 
