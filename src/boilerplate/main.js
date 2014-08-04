@@ -1,5 +1,7 @@
 define(function(require, exports, module) {
+    // load non-js resources (css, index.html)
     require('./resources');
+
     // import dependencies
     var Engine = require('famous/core/Engine');
     var Modifier = require('famous/core/Modifier');
@@ -28,4 +30,11 @@ define(function(require, exports, module) {
 
     console.log('Current target is: '+JSON.stringify(TARGET));
     console.log('Set TARGET variable with "webpack --target=xxx"');
+
+    document.addEventListener("deviceready", function(){
+        // Add the cordova.js script tag to your HTML to load cordova.
+        //
+        //  <script type="text/javascript" src="cordova.js"></script>
+        console.log('Cordova loaded succesfully - Device Ready!');
+    }, false);
 });

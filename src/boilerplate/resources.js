@@ -3,4 +3,4 @@ require('./css/app.css');
 require('famous-polyfills');
 
 // Copy the index.html to the output folder
-require('file?name=index.html!./index.html');
+require('./index.html');
