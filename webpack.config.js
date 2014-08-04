@@ -3,7 +3,7 @@ var path = require('path');
 var fs = require('fs');
 
 var options = getExtraOptions({
-  app: null,        // app folder to build (/src/[app]). null = all folders
+  bundle: null,     // folder to build (/src/[bundle]). null = all folders
   target: 'dev',    // set global TARGET variable (window.TARGET='dev')
   minify: false,    // minify bundle
   sync: false,      // add live-reload webpack-dev-server snippet to bundle
@@ -15,7 +15,7 @@ var config = {
   "context": path.join(__dirname,'src'),
   "output":{
     path: path.join(__dirname,'dist'),
-    filename:"[name]/bundle.js"
+    filename:"[name]/bundle.js",
   },
   "externals":[
     /^(\.\/)?cordova(\.js)?$/
@@ -32,7 +32,7 @@ var config = {
       { test: /\.css$/,    loader: "style-loader!css-loader" },
       { test: /\.less$/,   loader: "style-loader!css-loader!less-loader" },
       { test: /\.jade$/,   loader: "jade-loader" },
-      { test: /\.(png|jpg|gif)$/,    loader: "copy-weburl-loader?limit=5000" },
+      { test: /\.(png|jpg|gif)$/,    loader: "copy-url-loader?limit=5000" },
       { test: /\.eot$/,    loader: "copy-loader" },
       { test: /\.ttf$/,    loader: "copy-loader" },
       { test: /\.svg$/,    loader: "copy-loader" },
@@ -55,13 +55,17 @@ if(options.m){
 }
 if(options.cordova){
   config.output.path = path.join(__dirname,'www');
+  if(options.b) {
+    config.copyContext = path.join(__dirname,'src',options.b);
+    config.output.filename = 'bundle.js';
+  }
 }
 
 module.exports = config;
 
 function getExtraOptions(defaults){
   var opt = require('optimist')
-    .alias('a','app')
+    .alias('b','bundle')
     .alias('t','target')
     .alias('m','minify')
     .alias('o','extra-options')
@@ -69,7 +73,7 @@ function getExtraOptions(defaults){
     .alias('x','platform')
     .argv;
 
-  if(!opt.a) opt.a = defaults.app;
+  if(!opt.b) opt.b = defaults.bundle;
   if(!opt.t) opt.t = defaults.target;
   if(!opt.m) opt.m = defaults.minify;
   if(!opt.s) opt.s = defaults.sync;
@@ -78,36 +82,35 @@ function getExtraOptions(defaults){
 
   if(opt.o){
     console.log(
-      "Webpack builds every 'main.js' in /src/[bundle]/ to ./dist\n"+
-      "Every directory in /src/ is bundled as a seperate app.\n\n"+
+      "Webpack builds every 'main.js' in /src/[bundle]/ to ./dist/[bundle].\n\n"+
       "Extra options:\n"+
       "\t-s, --sync[=ip]\t\tAdds webpack-dev-server live-reload snippet to the bundle(s).\n"+
       "\t-t, --target=xxx\tSet a global TARGET variable (default: window.TARGET='dev')\n"+
       "\t-m, --minify\t\tMinify without mangle (default: false)\n"+
-      "\t-a, --app=xxx\t\tBuild a single src folder (default: all)\n\n"+
-      "\t    --cordova=xxx\tModify Cordova's ./config.xml\n"+
-      "\t\t\t\t<config src=\"...\"/> is updated to 'xxx' (default: app (if specified), index.html)\n"+
-      "\t\t\t\tversion is updated to version from package.json\n"+
-      "\t\t\t\tbundle output path is set to `./www`\n\n"+
-      "\t-x, --platform\t\tset --content-base of dev-server to a Cordova platform (ios,android).\n"+
-      "\t\t\t\tplatform defaults to: ios (if found), android (if found), 'dist'\n\n"+
-      "\t\t\t\tios:     --content-base=./platform/ios/www\n"+
-      "\t\t\t\tandroid: --content-base=./platform/android/assets/www\n\n"+
-      "Example cordova development:\n"+
-      "\twebpack-dev-server --sync --cordova=boilerplate --platform=ios\n\n"+
-      "Example web development w/ live-reload:\n"+
-      "\twebpack-dev-server --sync\n\n"+
-      "Example cordova production build:\n"+
-      "\twebpack --minify --cordova --target=app && cordova build ios\n\n"+
-      "Example web production build:\n"+
-      "\twebpack --minify --target=production --output-path=deploy\n"
+      "\t-b, --bundle=xxx\tBuild a single bundle (default: all)\n\n"+
+      "\t    --cordova=xxx\tModify Cordova's ./config.xml\n\n"+
+      "\t\t\t\t* Cordova entry-point is updated to 'xxx' (default: index.html)\n"+
+      "\t\t\t\t* Version is updated to version from package.json\n"+
+      "\t\t\t\t* Output path is set to `./www`\n\n"+
+      "\t-x, --platform\t\tSet correct content-base for webpack-dev-server.\n"+
+      "\t\t\t\tDefault: ios (if found), android (if found), 'dist'\n\n"+
+      "\t\t\t\t* ios:     --content-base=./platform/ios/www\n"+
+      "\t\t\t\t* android: --content-base=./platform/android/assets/www\n\n"+
+      "Cordova examples:\n"+
+      "\twebpack-dev-server --sync --cordova=boilerplate/index.html --platform=ios\n"+
+      "\twebpack --minify --cordova --bundle=boilerplate   && cordova build ios (build single bundle)\n"+
+      "\twebpack --minify --cordova=boilerplate/index.html && cordova build ios (build all bundles, start at boilerplate)\n"+
+      
+      "\nWeb examples:\n"+
+      "\twebpack-dev-server --sync\n"+
+      "\twebpack --minify --target=production\n"
       );
      process.exit();
   }
 
   var apps;
-  if(opt.a) {
-    apps = ['src/'+opt.a+'/main.js'];
+  if(opt.b) {
+    apps = ['src/'+opt.b+'/main.js'];
   } else {
     apps = require('glob').sync(path.join('src','!(node_modules)','main.js'));
   }
@@ -132,9 +135,7 @@ function getExtraOptions(defaults){
    * 
    */
   if(opt.cordova){
-    var src = "index.html";                // default is index.html
-    if(opt.s && opt.a) src = opt.a;        // if syncing & app specified, default to that bundle
-    if(typeof opt.cordova === "string") src = opt.cordova; // if cordova explicitly set, use that.
+    var src = opt.cordova; // if cordova explicitly set, use that.
 
     if(opt.s){
       src = "http://" + syncIP + ":8080/" + src; // point to webpack-dev-server
@@ -176,6 +177,6 @@ function getExtraOptions(defaults){
 
   opt.entries = entries;
 
-  console.log('TARGET='+opt.t+' APP='+(opt.a?opt.a:'all')+' SYNC='+(opt.s?syncIP:false)+' MINIFY='+opt.m);
+  console.log('TARGET='+opt.t+' BUNDLE='+(opt.b?opt.b:'all')+' SYNC='+(opt.s?syncIP:false)+' MINIFY='+opt.m);
   return opt;
 }
