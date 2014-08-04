@@ -79,11 +79,14 @@ cordova platform add ios # or android
 
 ```bash
 # shortcut
-webpack-dev-server --sync=192.168.0.1 --cordova --platform=ios # or android
+webpack-dev-server --sync=192.168.0.1 --cordova=boilerplate --platform=ios # or android
 
 # long version
-webpack-dev-server --sync=192.168.0.1 --cordova --content-base=platform/ios/www 
-webpack-dev-server --sync=192.168.0.1 --cordova --content-base=platform/android/assets/www 
+webpack-dev-server --sync=192.168.0.1 --cordova=boilerplate --content-base=platform/ios/www 
+webpack-dev-server --sync=192.168.0.1 --cordova=boilerplate --content-base=platform/android/assets/www 
+
+# in seperate terminal-tab, launch cordova
+cordova run ios # or android
 ```
 
 The `--platform=ios` flag:
@@ -97,9 +100,9 @@ webpack --minify --cordova --bundle=boilerplate
 cordova run ios # or android
 ```
 
-The `--cordova[=xxx.html]` flag:
+The `--cordova=boilerplate` flag:
 
-* Cordova entry-point in `./config.xml` is updated to `xxx.html` (default: index.html)
+* Cordova entry-point in `./config.xml` is updated to `boilerplate` (default: index.html)
 * Version is updated to version from package.json
 * Output path is set to `./www`
 
