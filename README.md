@@ -120,7 +120,7 @@ The `--bundle=xxx` flag:
 2. Check if `Cordova.js` is included. It is **not** included in the magic HTML from webpack-dev-server. To solve this:
 
     1. Create an `index.html` which includes 
-        ````html
+        ````
         <script type="text/javascript" src="cordova.js"></script>
         ````
     2. Now, in your `main.js`, require the index.html:
