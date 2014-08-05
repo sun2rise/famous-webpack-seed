@@ -1,8 +1,8 @@
 {
   "name": "famous-webpack-seed",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "A seed project to get started with Webpack and Famo.us",
-  "main": "src/index.js",
+  "main": "webpack.config.js",
   "scripts": {
     "test": "npm run lint -s"
   },

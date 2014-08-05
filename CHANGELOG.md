@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.6.1 (05/08/2014)
+
+* publish famous-webpack-seed to NPM. This makes it easier to `require` and extend the `webpack.config.js` and follow upstream changes.
+
 ### 0.6.0 (05/08/2014) Major refactor
 
 * simplified README

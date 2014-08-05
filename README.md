@@ -84,6 +84,21 @@ For more information and troubleshooting see the [webpack-cordova-plugin](https:
 
 ---
 
+## Advanced usage: extend this config
+
+1. Install `famous-webpack-seed` as npm module.
+  ```bash
+  npm install famous-webpack-seed --save-dev
+  ```
+
+2. Now you can extend your `webpack.config.js` as follows:
+   ```js
+   var config = require('famous-webpack-seed');
+   config.entry = './src/app.js'
+   // etc
+   ```
+
+
 ## Contributors
 
 Like it? Show some love and star this project!
