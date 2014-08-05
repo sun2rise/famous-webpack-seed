@@ -1,17 +1,13 @@
 #Famous-Webpack-Seed
-> A seed project to get started with Webpack and Famo.us. With support for Cordova!
+> A seed project to get started with Webpack and Famo.us. 
+> Optional support for Cordova.
 
 ###Features
 
-* Split your app into multiple bundles. Useful for quick prototyping, or if your project has multiple entry-points (e.g. admin + front-end).
-
-    ```./src/[bundle]/main.js ---> ./dist/[bundle]/bundle.js```
-      
-* Boilerplate bundle included for a quick start!
-* Require Jade, LESS and Coffee.
-* Support for **Cordova/Phonegap**.
-
-See `webpack --extra-options` for help.
+* Your app is split into multiple bundles: `./src/xxxx/main.js` > `./dist/xxxx/bundle.js`
+* Require **.jade**, **.coffee** and **.less**
+* Support multiple configurations in your code: set `window.ENV` using the `--env` flag.
+* Support for **Cordova/Phonegap**
 
 ---
 
@@ -20,49 +16,33 @@ See `webpack --extra-options` for help.
 ####Installation
 
 ```bash
-# First install webpack
-npm install -g webpack webpack-dev-server 
-
-# clone this repository
-git clone https://github.com/markmarijnissen/famous-webpack-seed
-
-# optionally remove git history
-# rm -rf .git 
-
-# install dependencies
-npm install 
+npm install -g webpack webpack-dev-server # install webpack
+git clone https://github.com/markmarijnissen/famous-webpack-seed # clone this repository
+# rm -rf .git # optionally remove git history
+npm install # install dependencies
 ```
 
 ####Development
 
 ```bash
-webpack-dev-server --sync
+webpack-dev-server --reload=localhost
 ```
 
 Now navigate to:
 
-* [http://localhost:8080/boilerplate](http://localhost:8080/boilerplate)
-* [http://localhost:8080/webpack-dev-server](http://localhost:8080/webpack-dev-server) (lists all content)
+* [http://localhost:8080/boilerplate/index.html](http://localhost:8080/boilerplate/index.html)
+* [http://localhost:8080/webpack-dev-server](http://localhost:8080/webpack-dev-server) (lists all bundles)
 
-The optional `--sync[=ip]` flag:
-
-* Adds the live-reload snippet to your bundle(s). You can optionally specify the IP address of the host computer: `--sync=192.168.0.1`. 
-
-Without the `--sync` flag you can visit a live-reloaded iframe at http://localhost:8080/webpack-dev-server/boilerplate/bundle
+The optional `--reload=ip` flag [adds the live-reload snippet](https://github.com/markmarijnissen/webpack-reload-plugin) to your bundle(s).
 
 
 ####Production
 ```bash
-webpack --minify --target=production
+webpack --minify --env=production
 ```
 
-The optional `--minify` flag:
-
-* Minifies the output.
-
-The optional `--target=xxx` flag:
-
-* Set a global TARGET variable (default: `window.TARGET='dev'`).
+* The optional `--minify` flag minifies the output.
+* The optional `--env=xxx` flag sets a global `ENV` variable (default: `window.TARGET='dev'`).
 
 ---
 
@@ -75,104 +55,31 @@ npm install -g cordova
 cordova platform add ios # or android
 ```
 
+The `webpack.cordova.js` configuration uses the [webpack-cordova-plugin](https://github.com/markmarijnissen/webpack-cordova-plugin) to add Cordova to your project.
+
 ####Development:
 
 ```bash
-# shortcut
-webpack-dev-server --sync=192.168.0.1 --cordova=boilerplate --platform=ios # or android
-
-# long version
-webpack-dev-server --sync=192.168.0.1 --cordova=boilerplate --content-base=platform/ios/www 
-webpack-dev-server --sync=192.168.0.1 --cordova=boilerplate --content-base=platform/android/assets/www 
+webpack-dev-server --config webpack.cordova.js --reload=192.168.0.1 --content-base=platform/ios/www 
+webpack-dev-server --config webpack.cordova.js --reload=192.168.0.1 --content-base=platform/android/assets/www 
 
 # in seperate terminal-tab, launch cordova
 cordova run ios # or android
 ```
 
-The `--platform=ios` flag:
+* The `--reload` flag enables live reloading, and points Cordova to your **webpack-dev-server**.
 
-* Set the correct **content-base** of webpack-dev-server. This is required for Cordova to load the correct (platform-dependant) javascript.
-
+* The `--content-base` flag ensures the correct `cordova.js` will be loaded. (Cordova and plugin javascript is different for each platform).
 
 ####Production:
 ```bash
-webpack --minify --cordova --bundle=boilerplate
+webpack --config webpack.cordova.js
 cordova run ios # or android
 ```
 
-The `--cordova=boilerplate` flag:
+####Cordova troubleshooting
+For more information and troubleshooting see the [webpack-cordova-plugin](https://github.com/markmarijnissen/webpack-cordova-plugin).
 
-* Cordova entry-point in `./config.xml` is updated to `boilerplate` (default: index.html)
-* Version is updated to version from package.json
-* Output path is set to `./www`
-
-The `--bundle=xxx` flag:
-
-* Builds a single bundle only.
-
----
-
-### Troubleshooting
-
-#### webpack-dev-server does not load Cordova correctly.
-
-1. Try setting the `--content-base` manually (see above).
-
-  The --platform=ios option only works with [my fork](https://github.com/markmarijnissen/webpack-dev-server) of webpack-dev-server. I've submitted a [pull-request](https://github.com/webpack/webpack-dev-server/pull/41). 
-
-2. Check if `Cordova.js` is included. It is **not** included in the magic HTML from webpack-dev-server. To solve this:
-
-    1. Create an `index.html` which includes 
-        ````html
-        <script type="text/javascript" src="cordova.js"></script>
-        ````
-
-    2. Now, in your `main.js`, require the index.html:
-        ````js
-        require('./index.html');
-        ````
-        
-    3. Run webpack-dev-server and point to the correct `index.html`:
-        ````
-        webpack-dev-server --sync --cordova=[YOUR_BUNDLE_NAME]/index.html
-        ````
-        
-        You can check `./config.xml` to make sure cordova loads the correct `index.html`
-
----
-
-### Tips & Tricks
-
-#### Different configuration for "dev" and "production" builds:
-Use `--target=xxx` to maintain different configuration for development and production builds:
-
-```javascript
-if(TARGET === 'dev'){
-   var api_url = "http://localhost:8080/api";
-} else {
-   var api_url = "http://www.myapi.com/api";
-}
-```
-
-#### Cordova app + back-end app:
-My projects often consist of two apps:
-
-```bash
-# A cordova app
-./src/app/main.js   
-
-# A back-end (dashboard, api, content editor)
-./src/admin/main.js  
-```   
-
-Now you can do:
-```bash
-# output all bundles to `./dist` to upload online.
-webpack                 
-
-# output only 'app' bundle to `./www` for cordova.
-webpack --cordova --bundle=app    
-```
 ---
 
 ## Contributors
@@ -181,14 +88,3 @@ Like it? Show some love and star this project!
 
 * Based on the original seed from [Adrian Rossouw](https://github.com/Vertice/famous-webpack-seed)
 * Bugfix from [Tony Alves](https://github.com/talves/)
-
-## Changelog
-
-**0.5.0**
-
-* renamed `--app` flag to `--bundle`
-* added changelog
-
-**0.4.0**
-
-* use `copy-loader` and `copy-url-loader` to create independent bundles.
