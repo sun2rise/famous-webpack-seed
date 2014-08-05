@@ -52,6 +52,8 @@ webpack --minify --env=production
 
 ```bash
 npm install -g cordova
+webpack --config webpack.cordova.js  # automatically creates a Cordova config.xml
+# change app ID in config.xml (optional)
 cordova platform add ios # or android
 ```
 
