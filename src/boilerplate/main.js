@@ -28,9 +28,20 @@ define(function(require, exports, module) {
 
     mainContext.add(centerSpinModifier).add(logo);
 
-    console.log('Current target is: '+JSON.stringify(TARGET));
-    console.log('Set TARGET variable with "webpack --target=xxx"');
+    /**
+     * Support for multiple configurations using the global ENV variable.
+     *
+     * Set the variable in webpack.config.js, or with the --env=XXXX flag.
+     */
+    if(ENV === "production") {
+        console.log("Hooray! This is the production environment. You can use different settings!");
+    } else {
+        console.log("You're running in the "+ENV+" environment. Try \"webpack --env=production\".");
+    }
 
+    /**
+     * Support for Cordova
+     */
     document.addEventListener("deviceready", function(){
         // Add the cordova.js script tag to your HTML to load cordova.
         //
