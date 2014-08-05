@@ -33,7 +33,7 @@
     "file-loader": "^0.6.1",
     "glob": "^4.0.5",
     "html-loader": "^0.2.2",
-    "jade": "^1.2.x",
+    "jade": "1.2.0",
     "jade-loader": "^0.6.1",
     "json-loader": "^0.5.1",
     "less": "^1.7.4",
