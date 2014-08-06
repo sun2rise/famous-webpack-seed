@@ -62,8 +62,7 @@ The `webpack.cordova.js` configuration uses the [webpack-cordova-plugin](https:/
 ####Development:
 
 ```bash
-webpack-dev-server --config webpack.cordova.js --reload=192.168.0.1 --content-base=platform/ios/www 
-webpack-dev-server --config webpack.cordova.js --reload=192.168.0.1 --content-base=platform/android/assets/www 
+webpack-dev-server --config webpack.cordova.js --reload=192.168.0.1 --ios # or --android
 
 # in seperate terminal-tab, launch cordova
 cordova run ios # or android
@@ -71,7 +70,7 @@ cordova run ios # or android
 
 * The `--reload` flag enables live reloading, and points Cordova to your **webpack-dev-server**.
 
-* The `--content-base` flag ensures the correct `cordova.js` will be loaded. (Cordova and plugin javascript is different for each platform).
+* The `--ios` or `--android` flags ensure the correct Cordova and plugin javascript is loaded. The javascript is different for each platform and located at `platform/ios/www ` or `platform/android/assets/www `.
 
 ####Production:
 ```bash
@@ -84,7 +83,7 @@ For more information and troubleshooting see the [webpack-cordova-plugin](https:
 
 ---
 
-## Advanced usage: extend this config
+#### Advanced usage: extend this config
 
 1. Install `famous-webpack-seed` as npm module.
   ```bash

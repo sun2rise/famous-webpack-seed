@@ -1,5 +1,10 @@
 # Changelog
 
+### 0.6.2 (06/08/2014)
+
+* update to latest `webpack-dev-server` fixes issues with `publicPath`
+* and allows you to set `--content-base` with the config file!
+
 ### 0.6.1 (05/08/2014)
 
 * publish famous-webpack-seed to NPM. This makes it easier to `require` and extend the `webpack.config.js` and follow upstream changes.

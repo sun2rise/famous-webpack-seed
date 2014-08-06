@@ -17,6 +17,9 @@ var config = {
     filename:"[name]/bundle.js",
     publicPath: '../'
   },
+  devServer: {
+    publicPath: '/'
+  },
   reload: isDevServer()? 'localhost': null,
   module:{
     loaders:[
@@ -45,12 +48,6 @@ var config = {
 
 if(argv.minify){
   config.plugins.push(new webpack.optimize.UglifyJsPlugin({mangle:false}));
-}
-
-if(isDevServer()) {
-    // webpack-dev-server resolves publicPath to `/../` 
-    // this makes no sense, so reset publicPath to default.
-  config.output.publicPath = undefined;
 }
 
 /**

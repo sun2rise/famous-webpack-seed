@@ -15,15 +15,16 @@ config.plugins.push(new CordovaPlugin({
 
 /**
  * Set webpack-dev-server content-base. This is equired to load the correct Cordova Javascript.
- * 
- * WARNING: Not yet supported!!!
- * Use the --content-base=platform/ios/www option instead!
- * (see: https://github.com/webpack/webpack-dev-server/pull/41)
  */
-config.devServer = {
-   contentBase: 'platforms/ios/www'
-// contentBase: 'platforms/android/assets/www'
-};
+var argv = require('optimist').argv;
+if(argv.ios){
+  config.devServer.contentBase = 'platforms/ios/www';
+}
+else if(argv.android) {
+  config.devServer.contentBase = 'platforms/android/assets/www';
+} else {
+  console.log('Use --android or --ios to enable Cordova plugins!');
+}
 
 module.exports = config;
 
