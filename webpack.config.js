@@ -11,7 +11,6 @@ var argv = require('optimist')
             .alias('m','minify')
             .argv;
 
-      console.log(__dirname);
 var config = {
   context: path.join(__dirname, "src"),
   entry: getEntries(), // every ./src/XXXX/main.js
