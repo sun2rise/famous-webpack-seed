@@ -38,7 +38,6 @@ var config = {
       { test: /const(ants)?\.js$/,  loader: "expose?CONST" }
     ]
   },
-  copyContext: 'src',
   plugins:[
     new webpack.DefinePlugin({
       VERSION: JSON.stringify(require('./package.json').version),

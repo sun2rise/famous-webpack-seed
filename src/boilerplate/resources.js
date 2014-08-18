@@ -1,4 +1,4 @@
-__webpack_public_path__ = '../'
+//__webpack_public_path__ = '../'
 
 require('famous/core/famous.css');
 require('./css/app.css');
