@@ -17,7 +17,7 @@
 
 ```bash
 npm install -g webpack webpack-dev-server # install webpack
-git clone https://github.com/markmarijnissen/famous-webpack-seed # clone this repository
+git clone https://github.com/sun2rise/famous-webpack-seed # clone this repository
 # rm -rf .git # optionally remove git history
 npm install # install dependencies
 ```
