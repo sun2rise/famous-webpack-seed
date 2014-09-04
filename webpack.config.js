@@ -28,7 +28,7 @@ var config = {
       { test: /\.json$/,            loader: "json-loader" },
       { test: /\.coffee$/,          loader: "coffee-loader" },
       { test: /\.css$/,             loader: "style-loader!css-loader" },
-      { test: /\.less$/,            loader: "style-loader!css-loader!less-loader" },
+      { test: /\.sass$/,            loader: "style-loader!css-loader!sass-loader" },
       { test: /\.jade$/,            loader: "jade-loader" },
       { test: /\.(png|jpg|gif)$/,   loader: "url-loader?limit=50000&name=[path][name].[ext]" },
       { test: /\.eot$/,             loader: "file-loader?name=[path][name].[ext]" },

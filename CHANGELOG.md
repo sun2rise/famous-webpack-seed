@@ -1,5 +1,8 @@
 # Changelog
 
+### 0.6.2 (04/09/2014)
+* changed less with sass
+
 ### 0.6.2 (06/08/2014)
 
 * update to latest `webpack-dev-server` fixes issues with `publicPath`

@@ -5,7 +5,7 @@
 ###Features
 
 * Your app is split into multiple bundles: `./src/xxxx/main.js` > `./dist/xxxx/bundle.js`
-* Require **.jade**, **.coffee** and **.less**
+* Require **.jade**, **.coffee** and **.sass**
 * Support multiple configurations in your code: set `window.ENV` using the `--env` flag.
 * Support for **Cordova/Phonegap**
 
